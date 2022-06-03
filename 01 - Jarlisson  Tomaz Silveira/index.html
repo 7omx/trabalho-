@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/records.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,400;0,500;1,800&display=swap" rel="stylesheet">
+    <script src="main.js" defer></script>
+
+    <title>CRUD</title>
+</head>
+<body>
+    <header>
+        <h1 class="header-title">Cadastro de Produto</h1>
+    </header>
+    <main>
+        <button type="button" class="button blue mobile" id="cadastrarProduto">Cadastar Produto</button>
+        <table id="tableClient" class="records">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+    <!--         <tr>
+                <td>1</td>
+                <td>BIS</td>
+                <td>2</td>
+                <td>1.50</td>
+                <td>
+                    <button type="button" class="button green">editar</button>
+                    <button type="button" class="button red">excluir</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Biscoito</td>
+                <td>3</td>
+                <td>2.50</td>
+                <td>
+                    <button type="button" class="button green">editar</button>
+                    <button type="button" class="button red">excluir</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Leite</td>
+                <td>1</td>
+                <td>6</td>
+                <td>
+                    <button type="button" class="button green">editar</button>
+                    <button type="button" class="button red">excluir</button>
+                </td> -->
+        </tbody>
+    </table>
+   <div class="modal" id="modal">
+      <div class="modal-content">
+          <header class="modal-header">
+              <h2>Novo Produto</h2>
+              <span class="modal-close" id="modalClose">&#10006;</span>
+          </header>
+          <form id="form" class="modal-form">
+              <input id="nome" type="text" data-index="new" class="modal-fild" placeholder="Nome do Produto" required>
+              <input id="quantidade" type="number" class="modal-fild" placeholder="Quantidade" required>
+              <input id="valor" type="number" class="modal-fild" placeholder="Valor" required>
+              <input id="id" type="number" class="modal-fild" placeholder="Id" required>
+          </form>
+          <footer class="modal-footer">
+              <button class="button green" id="salvar">Salvar</button>
+              <button class="button blue" id="cancelar">Cancelar</button>
+          </footer>
+          </div>
+          </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,141 @@
+'use strict'
+
+const openModal = () => document.getElementById('modal')
+    .classList.add('active')
+
+const closeModal = () => {
+    clearFields()
+    document.getElementById('modal').classList.remove('active')
+}
+
+const getLocalStorage = ()=> JSON.parse(localStorage.getItem('db_client')) ?? []
+const setLocalStorage = (dbClient)=> localStorage.setItem("db_client",JSON.stringify(dbClient))
+//CRUD - DELETE
+const deleteClient= (index) => {
+    const dbClient = readClient()
+    dbClient.splice(index,1)
+    setLocalStorage(dbClient)
+}
+
+//CRUD - UPDATE
+const updateClient = (index, client) => {
+    const dbClient = readClient()
+    dbClient[index] = client
+    setLocalStorage(dbClient)
+}
+
+const readClient = () => getLocalStorage()
+
+//CRUD - CREATE
+const createClient = (client) => {
+    const dbClient = getLocalStorage()
+    dbClient.push (client)
+    setLocalStorage(dbClient)
+}
+
+const clearFields = () => {
+    const fields = document.querySelectorAll('.modal-fild')
+    fields.forEach(field => field.value = "")
+}
+
+const isValidFilds = () => {
+    return document.getElementById('form').reportValidity()
+}
+
+const saveCLient = () => {
+    if (isValidFilds()) {
+        const client = {
+            id:document.getElementById('id').value,
+            nome:document.getElementById('nome').value,
+            valor:document.getElementById('valor').value,
+            quantidade:document.getElementById('quantidade').value
+        }
+        const index = document.getElementById('nome').dataset.index
+        if (index == 'new') {
+        createClient(client)
+        updateTable()
+        closeModal()
+    } else {
+        updateClient(index, client)
+        updateTable()
+        closeModal()
+    }
+}
+}
+
+const createRow = (client, index) => {
+    const newRow = document.createElement('tr')
+    newRow.innerHTML = `
+    <td>${client.id}</td>
+    <td>${client.nome}</td>
+    <td>${client.valor}</td>
+    <td>${client.quantidade}</td>
+    <td>
+        <button type="button" class="button green" id="edit-${index}">editar</button>
+        <button type="button" class="button red" id="delete-${index}">excluir</button>
+    </td>
+    `
+    document.querySelector('#tableClient>tbody').appendChild(newRow)
+}
+
+const clearTable = () => {
+    const rows = document.querySelectorAll('#tableClient>tbody tr')
+    rows.forEach(row => row.parentNode.removeChild(row))
+}
+
+const updateTable = () => {
+    const dbClient = readClient()
+    clearTable()
+    dbClient.forEach(createRow)
+}
+
+const fillFields = (client) => {
+    document.getElementById('nome').value = client.nome
+    document.getElementById('valor').value = client.valor
+    document.getElementById('quantidade').value = client.quantidade
+    document.getElementById('id').value = client.id
+    document.getElementById('nome').dataset.index = client.index
+}
+
+const editClient = (index) =>  {
+    const client = readClient()[index]
+    client.index = index
+    fillFields(client)
+    openModal()
+}
+
+const editDelete = (event) => {
+    if (event.target.type == 'button'){
+
+        const [action, index] = event.target.id.split('-')
+        
+        if (action == 'edit') {
+            editClient(index)
+        } else {
+            const client = readClient()[index]
+            const response = confirm (`Deseja realmente excluir o cliente ${client.nome}`)
+            if (response) {
+                deleteClient(index)
+                updateTable()
+            }
+        }
+    }
+}
+
+updateTable()
+
+
+document.getElementById('cadastrarProduto')
+    .addEventListener('click', openModal)
+
+document.getElementById('modalClose')
+    .addEventListener('click', closeModal)
+
+document.getElementById('cancelar')
+    .addEventListener('click', closeModal)
+
+document.getElementById('salvar')
+    .addEventListener('click', saveCLient)
+
+document.querySelector('#tableClient>tbody')
+    .addEventListener('click', editDelete)
